@@ -1,0 +1,36 @@
+clc;
+clear;
+
+% Accept inputs from the user
+seed = input('Enter the initial seed as a row vector: ');
+taps = input('Enter the tap positions as a row vector: ');
+num_bits = input('Enter the number of bits to generate: ');
+
+% Check that the seed is not all zeros
+if all(seed == 0)
+    error('The seed cannot be all zeros.');
+end
+
+n = length(seed);
+state = seed;
+pn = zeros(1, num_bits);
+
+% Generate the PN sequence
+for i = 1:num_bits
+
+    % Output bit
+    pn(i) = state(end);
+
+    % Calculate feedback bit
+    feedback = state(taps(1));
+    for j = 2:length(taps)
+        feedback = xor(feedback, state(taps(j)));
+    end
+
+    % Shift register
+    state = [feedback state(1:n-1)];
+end
+
+% Display PN sequence
+disp('Generated PN Sequence:');
+disp(pn);
