@@ -1,0 +1,18 @@
+clc;
+clear;
+close all;
+
+N = [1 3 4 7 9 12 13 16 19];
+
+n = 4;
+
+CI = ((sqrt(3*N)).^n) / 6;
+
+disp("Cluster Size (N)    C/I Ratio");
+disp([N' CI']);
+
+plot(N, CI, '-o');
+xlabel("Cluster Size (N)");
+ylabel("C/I Ratio");
+title("Effect of Cluster Size on C/I Ratio");
+grid on;
