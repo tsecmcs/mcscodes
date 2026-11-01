@@ -1,0 +1,23 @@
+% Add both users
+x = s1 + s2;
+
+disp("User 1:");
+disp(s1);
+
+disp("User 2:");
+disp(s2);
+
+disp("CDMA Signal:");
+disp(x);
+
+% Recover User 1
+r1 = sum(reshape(x,4,[]) .* c1',1) / 4;
+
+% Recover User 2
+r2 = sum(reshape(x,4,[]) .* c2',1) / 4;
+
+disp("Recovered User 1:");
+disp(r1);
+
+disp("Recovered User 2:");
+disp(r2);
