@@ -1,0 +1,35 @@
+data = [1; -1; 1; -1];
+
+disp("User Data:");
+disp(data);
+
+% Encoding
+encoded = zeros(n, n);
+
+for i = 1:n
+    encoded(i,:) = data(i) * W(i,:);
+end
+
+disp("Encoded Signals:");
+disp(encoded);
+
+% Transmitted signal (sum of all encoded signals)
+tx = sum(encoded);
+
+disp("Transmitted Signal:");
+disp(tx);
+
+% Receiver
+disp("Decoded Data:");
+
+for i = 1:n
+    recovered = sum(tx .* W(i,:)) / n;
+
+    if recovered > 0
+        bit = 1;
+    else
+        bit = -1;
+    end
+
+    printf("User %d : %d\n", i, bit);
+end
