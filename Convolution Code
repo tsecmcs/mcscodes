@@ -1,58 +1,25 @@
-% Experiment 2: Convolution Encoder
-
 clc;
 clear;
-close all;
 
-% Input binary sequence
-data = [1 0 1 1];
+t = [1 0 1 0 0];
 
-% Initial memory bits
-m1 = 0;
-m2 = 0;
+x1 = 0;
+x2 = 0;
+x3 = 0;
 
-% Empty array for encoded output
-encoded = [];
+for i = 1:5
 
-for i = 1:length(data)
+    x1 = t(i);
 
-    % Current input bit
-    x = data(i);
+    u1 = xor(xor(x1, x2), x3);
+    u2 = xor(x1, x3);
 
-    % Generator output 1
-    y1 = xor(x, m2);
+    disp([u1 u2])
 
-    % Generator output 2
-    y2 = xor(xor(x, m1), m2);
-
-    % Store both output bits
-    encoded = [encoded y1 y2];
-
-    % Shift memory bits
-    m2 = m1;
-    m1 = x;
+    x3 = x2;
+    x2 = x1;
 
 end
-
-% Display input sequence
-disp('Input Sequence:');
-disp(data);
-
-% Display encoded sequence
-disp('Encoded Sequence:');
-disp(encoded);
-
-% Plot input data
-figure;
-stem(data);
-title('Input Binary Sequence');
-xlabel('Bit Number');
-ylabel('Amplitude');
-grid on;
-
-% Plot encoded data
-figure;
-stem(encoded);
 title('Convolution Encoded Sequence');
 xlabel('Bit Number');
 ylabel('Amplitude');
