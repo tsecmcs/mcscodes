@@ -1,36 +1,44 @@
+% Experiment 1: PN Sequence Generator
+% Using a 4-bit Linear Feedback Shift Register (LFSR)
+
 clc;
 clear;
+close all;
 
-% Accept inputs from the user
-seed = input('Enter the initial seed as a row vector: ');
-taps = input('Enter the tap positions as a row vector: ');
-num_bits = input('Enter the number of bits to generate: ');
+% Initial state of the register
+reg = [1 0 0 1];
 
-% Check that the seed is not all zeros
-if all(seed == 0)
-    error('The seed cannot be all zeros.');
-end
+% Number of PN bits to generate
+n = 15;
 
-n = length(seed);
-state = seed;
-pn = zeros(1, num_bits);
+% Array to store PN sequence
+pn = zeros(1, n);
 
-% Generate the PN sequence
-for i = 1:num_bits
+for i = 1:n
 
-    % Output bit
-    pn(i) = state(end);
+    % Take the last bit as output
+    pn(i) = reg(4);
 
-    % Calculate feedback bit
-    feedback = state(taps(1));
-    for j = 2:length(taps)
-        feedback = xor(feedback, state(taps(j)));
-    end
+    % XOR operation for feedback
+    feedback = xor(reg(4), reg(1));
 
-    % Shift register
-    state = [feedback state(1:n-1)];
+    % Shift register to the right
+    reg(4) = reg(3);
+    reg(3) = reg(2);
+    reg(2) = reg(1);
+
+    % Put feedback bit at first position
+    reg(1) = feedback;
+
 end
 
 % Display PN sequence
 disp('Generated PN Sequence:');
 disp(pn);
+
+% Plot the PN sequence
+stem(pn);
+title('PN Sequence');
+xlabel('Bit Number');
+ylabel('Amplitude');
+grid on;
