@@ -1,33 +1,49 @@
-% Experiment 5: Generate Walsh Code using Hadamard Matrix
-
 clc;
 clear;
-close all;
 
-% Order of Hadamard matrix
-N = 4;
+% Generate Walsh Code using Hadamard Matrix
+n = 4;
 
-% Generate Hadamard matrix
-H = hadamard(N);
+W = [1  1  1  1;
+     1 -1  1 -1;
+     1  1 -1 -1;
+     1 -1 -1  1];
 
-% Display Hadamard matrix
-disp('Hadamard Matrix:');
-disp(H);
+disp("Walsh Codes:");
+disp(W);
 
-% Convert -1 values into 0 for binary Walsh codes
-Walsh = (H + 1) / 2;
+data = [1; -1; 1; -1];
 
-% Display Walsh codes
-disp('Walsh Codes:');
-disp(Walsh);
+disp("User Data:");
+disp(data);
 
-% Plot Walsh codes
-figure;
+% Encoding
+encoded = zeros(n, n);
 
-for i = 1:N
-    subplot(N,1,i);
-    stairs(Walsh(i,:), 'LineWidth', 2);
-    ylim([-0.5 1.5]);
-    title(['Walsh Code ', num2str(i)]);
-    grid on;
+for i = 1:n
+    encoded(i,:) = data(i) * W(i,:);
+end
+
+disp("Encoded Signals:");
+disp(encoded);
+
+% Transmitted signal
+tx = sum(encoded);
+
+disp("Transmitted Signal:");
+disp(tx);
+
+% Receiver
+disp("Decoded Data:");
+
+for i = 1:n
+    recovered = sum(tx .* W(i,:)) / n;
+
+    if recovered > 0
+        bit = 1;
+    else
+        bit = -1;
+    end
+
+    printf("User %d : %d\n", i, bit);
 end
